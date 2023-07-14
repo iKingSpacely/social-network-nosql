@@ -74,4 +74,33 @@ module.exports = {
       res.status(500).json(err);
     }
   },
+
+  //add a reaction
+  async addReaction(req, res) {
+    try {
+      const thought = await Thoughts.findOneAndUpdate({ _id: req.body.thoughtId }, { $push: { reactions: req.body}}, { new: true }, { runValidators: true });
+   
+      if (!thought) {
+        return res.status(404).json({ message: 'Cant add reaction!' });
+      }
+      res.json(thought);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  },
+
+  //delete a reaction
+  async deleteReaction(req, res) {
+    try {
+      const thought = await Thoughts.findOneAndDelete({ _id: req.params.thoughtId }, { $pull: { reactionId: req.params.reactionId }}, { new: true });
+
+      if (!thought) {
+        return res.status(404).json({ message: 'Cant delete reaction because there is no reaction with that ID!' });
+      }
+
+      res.json(thought);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  },
 };
