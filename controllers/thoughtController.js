@@ -1,33 +1,74 @@
-const { Post } = require('../models');
+const { User, Thoughts } = require('../models');
 
 module.exports = {
-    
-  async getPosts(req, res) {
+  
+  //get all thoughts
+  async getThoughts(req, res) {
     try {
-      const posts = await Post.find();
-      res.json(posts);
+      const thoughts = await Thoughts.find();
+      if (!thoughts) {
+        return res.status(404).json({ message: 'There is no thought with that ID!' });
+      }
+      res.json(thoughts);
     } catch (err) {
       res.status(500).json(err);
     }
   },
-  async getSinglePost(req, res) {
-    try {
-      const post = await Post.findOne({ _id: req.params.postId });
 
-      if (!post) {
-        return res.status(404).json({ message: 'No post with that ID' });
+  //get single thought
+  async getSingleThought(req, res) {
+    try {
+      const thought = await Thoughts.findOne({ _id: req.params.thoughtId });
+
+      if (!thought) {
+        return res.status(404).json({ message: 'There is no thought with that ID!' });
       }
 
-      res.json(post);
+      res.json(thought);
     } catch (err) {
       res.status(500).json(err);
     }
   },
-  // create a new post
-  async createPost(req, res) {
+
+  // create new thought
+  async createThought(req, res) {
     try {
-      const dbPostData = await Post.create(req.body);
-      res.json(dbPostData);
+      const thought = await Thoughts.create(req.body);
+      if (!thought) {
+        return res.status(404).json({ message: 'There is no thought with that ID!' });
+      }
+      res.json(thought);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  },
+
+  //update single thought
+  async updateThought(req, res) {
+    try {
+      const thought = await Thoughts.findOneAndUpdate({ _id: req.params.thoughtId });
+
+      if (!thought) {
+        return res.status(404).json({ message: 'Cant update because there is no thought with that ID!' });
+      }
+
+      res.json(thought);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  },
+
+
+  //delete single thought
+  async deleteThought(req, res) {
+    try {
+      const thought = await Thoughts.findOneAndDelete({ _id: req.params.thoughtId });
+
+      if (!thought) {
+        return res.status(404).json({ message: 'Cant delete becaues there is no thought with that ID!' });
+      }
+
+      res.json(thought);
     } catch (err) {
       res.status(500).json(err);
     }

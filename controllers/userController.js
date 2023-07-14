@@ -1,47 +1,75 @@
-const { Post, Comment } = require('../models');
+const { User, Thoughts } = require('../models');
 
 module.exports = {
-  async getComments(req, res) {
+  
+  //get all users
+  async getUsers(req, res) {
     try {
-      const comment = await Comment.find();
-      res.json(comment);
+      const thoughts = await User.find();
+      if (!thoughts) {
+        return res.status(404).json({ message: 'There is no thought with that ID!' });
+      }
+      res.json(thoughts);
     } catch (err) {
       res.status(500).json(err);
     }
   },
-  // Get a single comment
-  async getSingleComment(req, res) {
-    try {
-      const comment = await Comment.findOne({ _id: req.params.commentId });
 
-      if (!comment) {
-        return res.status(404).json({ message: 'No comment found with that id' });
+  //get single user
+  async getSingleUser(req, res) {
+    try {
+      const thought = await User.findOne({ _id: req.params.thoughtId });
+
+      if (!thought) {
+        return res.status(404).json({ message: 'There is no thought with that ID!' });
       }
 
-      res.json(comment);
+      res.json(thought);
     } catch (err) {
       res.status(500).json(err);
     }
   },
-  // Create a comment
-  async createComment(req, res) {
-    try {
-      const comment = await Comment.create(req.body);
-      const post = await Post.findOneAndUpdate(
-        { _id: req.body.postId },
-        { $push: { comments: comment._id } },
-        { new: true }
-      );
 
-      if (!post) {
-        return res
-          .status(404)
-          .json({ message: 'comment created, but no posts with this ID' });
+  // create a new user
+  async createUser(req, res) {
+    try {
+      const thought = await User.create(req.body);
+      if (!thought) {
+        return res.status(404).json({ message: 'There is no thought with that ID!' });
+      }
+      res.json(thought);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  },
+  
+  //update single user
+  async updateUser(req, res) {
+    try {
+      const thought = await User.findOneAndUpdate({ _id: req.params.thoughtId });
+
+      if (!thought) {
+        return res.status(404).json({ message: 'Cant update because there is no thought with that ID!' });
       }
 
-      res.json({ message: 'comment created' });
+      res.json(thought);
     } catch (err) {
-      console.error(err);
+      res.status(500).json(err);
+    }
+  },
+
+  //delete single user
+  async deleteUser(req, res) {
+    try {
+      const thought = await User.findOneAndDelete({ _id: req.params.thoughtId });
+
+      if (!thought) {
+        return res.status(404).json({ message: 'Cant delete becaues there is no thought with that ID!' });
+      }
+
+      res.json(thought);
+    } catch (err) {
+      res.status(500).json(err);
     }
   },
 };
