@@ -18,7 +18,7 @@ module.exports = {
   //get single user
   async getSingleUser(req, res) {
     try {
-      const user = await User.findOne({ _id: req.params.userId });
+      const user = await User.findOne({ _id: req.params.userId }).select('-__v');
 
       if (!user) {
         return res.status(404).json({ message: 'There is no user with that ID!' });
@@ -47,7 +47,7 @@ module.exports = {
   //update single user
   async updateUser(req, res) {
     try {
-      const thought = await User.findOneAndUpdate({ _id: req.params.thoughtId });
+      const thought = await User.findOneAndUpdate({ _id: req.params.thoughtId }, { $push: req.body }, { new: true, runValidators: true });
 
       if (!thought) {
         return res.status(404).json({ message: 'Cant update because there is no thought with that ID!' });
