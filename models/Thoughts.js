@@ -40,11 +40,12 @@ const thoughtSchema = new Schema ({
     reactions: [reactionSchema]
 });
 
-postSchema.virtual('commentCount').get(function () {
-    return this.comments.length;
+thoughtSchema.virtual('reactionCount').get(function () {
+    return `${this.reactions}`;
+  }).set(function(value) {
+    const reactions = value.split(' ');
+    this.reactions = reactions;
   });
-
-
 
 const Thoughts = model('reactionCount', thoughtSchema);
 

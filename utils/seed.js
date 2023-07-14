@@ -19,4 +19,5 @@ connection.once('open', async () => {
   }
 
   await User.insertMany(users);
+  process.exit(0);
 });

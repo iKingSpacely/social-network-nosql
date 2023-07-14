@@ -17,8 +17,8 @@ const userSchema = new Schema({
     friends: [{ type: Schema.Types.ObjectId, ref: 'user'}],
 });
 
-postSchema.virtual('commentCount').get(function () {
-    return this.comments.length;
+userSchema.virtual('commentCount').get(function () {
+    return `${this.friends.length}`;
   });
 
 
