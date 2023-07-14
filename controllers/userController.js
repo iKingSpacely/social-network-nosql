@@ -5,11 +5,11 @@ module.exports = {
   //get all users
   async getUsers(req, res) {
     try {
-      const thoughts = await User.find();
-      if (!thoughts) {
-        return res.status(404).json({ message: 'There is no thought with that ID!' });
+      const users = await User.find();
+      if (!users) {
+        return res.status(404).json({ message: 'Oh no! Cant find users!' });
       }
-      res.json(thoughts);
+      res.json(users);
     } catch (err) {
       res.status(500).json(err);
     }
@@ -18,13 +18,13 @@ module.exports = {
   //get single user
   async getSingleUser(req, res) {
     try {
-      const thought = await User.findOne({ _id: req.params.thoughtId });
+      const user = await User.findOne({ _id: req.params.userId });
 
-      if (!thought) {
-        return res.status(404).json({ message: 'There is no thought with that ID!' });
+      if (!user) {
+        return res.status(404).json({ message: 'There is no user with that ID!' });
       }
 
-      res.json(thought);
+      res.json(user);
     } catch (err) {
       res.status(500).json(err);
     }
@@ -33,11 +33,12 @@ module.exports = {
   // create a new user
   async createUser(req, res) {
     try {
-      const thought = await User.create(req.body);
-      if (!thought) {
-        return res.status(404).json({ message: 'There is no thought with that ID!' });
+      const user = await User.create(req.body);
+
+      if (!user) {
+        return res.status(404).json({ message: 'Cannot create user!' });
       }
-      res.json(thought);
+      res.json(user);
     } catch (err) {
       res.status(500).json(err);
     }
@@ -60,6 +61,34 @@ module.exports = {
 
   //delete single user
   async deleteUser(req, res) {
+    try {
+      const thought = await User.findOneAndDelete({ _id: req.params.thoughtId });
+
+      if (!thought) {
+        return res.status(404).json({ message: 'Cant delete becaues there is no thought with that ID!' });
+      }
+
+      res.json(thought);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  },
+
+    //add a friend
+    async addFriend(req, res) {
+      try {
+        const thought = await User.create(req.body);
+        if (!thought) {
+          return res.status(404).json({ message: 'There is no thought with that ID!' });
+        }
+        res.json(thought);
+      } catch (err) {
+        res.status(500).json(err);
+      }
+    },
+
+      //delete friend
+  async deleteFriend(req, res) {
     try {
       const thought = await User.findOneAndDelete({ _id: req.params.thoughtId });
 
