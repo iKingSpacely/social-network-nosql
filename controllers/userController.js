@@ -79,6 +79,7 @@ module.exports = {
     async addFriend(req, res) {
       try {
         const friend = await User.findOneAndUpdate({ _id: req.params.userId }, {$addToSet: {friends: req.params.friendId }}, { new: true });
+
         if (!friend) {
           return res.status(404).json({ message: 'Cant add friend!' });
         }
@@ -96,7 +97,6 @@ module.exports = {
       if (!friend) {
         return res.status(404).json({ message: 'Cant delete becaues there is no friend with that ID!' });
       }
-
       res.json(friend);
     } catch (err) {
       res.status(500).json(err);

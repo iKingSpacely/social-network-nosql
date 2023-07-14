@@ -15,9 +15,15 @@ const userSchema = new Schema({
     },
     thoughts: [{ type: Schema.Types.ObjectId, ref: 'thought'}],
     friends: [{ type: Schema.Types.ObjectId, ref: 'user'}],
+}, {
+    toJSON: {
+        getters: true,
+        virtuals: true,
+    },
+    id: false,
 });
 
-userSchema.virtual('commentCount').get(function () {
+userSchema.virtual('friendCount').get(function () {
     return `${this.friends.length}`;
   });
 
