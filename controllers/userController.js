@@ -78,12 +78,15 @@ module.exports = {
     //add a friend
     async addFriend(req, res) {
       try {
-        const friend = await User.findOneAndUpdate({ _id: req.params.userId }, {$addToSet: {friends: req.params.friendId }}, { new: true });
+        const user = await User.findOneAndUpdate(
+          { _id: req.params.userId }, 
+          { $addToSet: { friends: req.params.friendId }}, 
+          { new: true });
 
-        if (!friend) {
+        if (!user) {
           return res.status(404).json({ message: 'Cant add friend!' });
         }
-        res.json(friend);
+        res.json(user);
       } catch (err) {
         res.status(500).json(err);
       }
@@ -92,12 +95,15 @@ module.exports = {
       //delete friend
   async deleteFriend(req, res) {
     try {
-      const friend = await User.findOneAndDelete({ _id: req.params.userId }, { $pull: { friends: req.params.friendId }}, { new: true });
+      const user = await User.findOneAndUpdate(
+        { _id: req.params.userId }, 
+        { $pull: { friends: req.params.friendId }}, 
+        { new: true });
 
-      if (!friend) {
+      if (!user) {
         return res.status(404).json({ message: 'Cant delete becaues there is no friend with that ID!' });
       }
-      res.json(friend);
+      res.json(user);
     } catch (err) {
       res.status(500).json(err);
     }

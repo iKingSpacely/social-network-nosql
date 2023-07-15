@@ -19,24 +19,21 @@ connection.once('open', async () => {
   }
 
   await User.insertMany(users);
-
-  for (let i = 0; i < 10; i++) {
-    const user = user[i];
-    const thoughts = [];
-    const randomThoughts = Math.floor(Math.random() * 3) + 3;
-
-    for (let j = 0; j < randomThoughts; j++) {
-      thoughts.push({
-        thoughtText: `Thought ${j + 1} by ${user.username}`,
-        username: user.username,
-        reactions: []
-      });
-    }
-    await Thoughts.insertMany(thoughts);
-  }
-
-
-
-
   process.exit(0);
 });
+
+  //IDK WHY THE BELOW WONT GENERATE RANDOM THOUGHTS FOR ME SO I COMMENTED IT OUT
+  // for (let i = 0; i < 10; i++) {
+  //   const user = user[i];
+  //   const thoughts = [];
+  //   const randomThoughts = Math.floor(Math.random() * 3) + 3;
+
+  //   for (let j = 0; j < randomThoughts; j++) {
+  //     thoughts.push({
+  //       thoughtText: `Thought ${j + 1} by ${user.username}`,
+  //       username: user.username,
+  //       reactions: []
+  //     });
+  //   }
+  //   await Thoughts.insertMany(thoughts);
+  // }
