@@ -6,7 +6,7 @@ Challenge 18 requires us to use Insomnia to test a series of different GETS, POS
 Last, but not least, we’ll be testing the delete routes for all of the above. We will be able to delete users, friends, thoughts, and reactions. When all tests are done, we’ll know that from a backend perspective, we have a working social network! 
 
 ## Walkthrough Video
-
+https://drive.google.com/file/d/1oh5mq7i7xqCEZFEhNby94sY8tQ_4htnh/view
 
 ## Table of Contents
 - [Installation](#installation)
