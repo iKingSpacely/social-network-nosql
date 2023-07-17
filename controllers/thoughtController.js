@@ -37,7 +37,7 @@ module.exports = {
         { _id: req.body.userId }, 
         { $push: { thoughts: thought._id}},
         { new: true });
-      //don't need to call data according to instructors' help in office hours
+
       if (!user) {
         return res.status(404).json({ message: 'Cant create your thought because there is no user with that ID!' });
       }
@@ -91,9 +91,9 @@ module.exports = {
     try {
       const thought = await Thoughts.findOneAndUpdate(
         { _id: req.params.thoughtId }, 
-        { $push: { reactions: req.body }}, 
+        { $addToSet: { reactions: req.body }}, 
         { new: true, runValidators: true });
-   
+
       if (!thought) {
         return res.status(404).json({ message: 'Cant add reaction!' });
       }
